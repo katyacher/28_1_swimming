@@ -80,10 +80,10 @@ int main(int, char**){
 
     int time = 1;
 
-    //std::string name;
-    //std::cin >> name;
-    //int velocity;
-    //std::cin >> velocity;
+    std::string name;
+    std::cin >> name;
+    int velocity;
+    std::cin >> velocity;
     
     std::thread track1(swim, time, "Swimmer 1", 25);
     std::thread track2(swim, time, "Swimmer 2", 15);
