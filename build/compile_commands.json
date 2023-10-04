@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/kate/Documents/skillbox/28_1_swimming/build",
-  "command": "/usr/bin/g++    -pthread -g -o CMakeFiles/28_1_swimming.dir/main.cpp.o -c /home/kate/Documents/skillbox/28_1_swimming/main.cpp",
-  "file": "/home/kate/Documents/skillbox/28_1_swimming/main.cpp",
-  "output": "CMakeFiles/28_1_swimming.dir/main.cpp.o"
-}
-]
