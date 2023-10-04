@@ -5,7 +5,7 @@
 
 # User-specific files
 .vscode
-buid/
+build
 *.rsuser
 *.suo
 *.user
