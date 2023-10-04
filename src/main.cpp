@@ -3,52 +3,12 @@
 #include <thread>
 #include <mutex>
 #include <map>
+#include "swimmer.h"
 
 std::map<int, std::string> results;
 std::mutex result_accsess;
 std::mutex stdout_accsess;
 
-class Swimmer{
-    std::string name;
-    int velocity;
-    int distance;
-    int time{0};
-    int result;
-public:
-    void setName(const std::string inName){
-        name = inName; 
-    }
-
-    std::string getName(){
-        return name;
-    }
-
-    void setVelocity(int inVelocity){
-        velocity = inVelocity;
-    }
-
-    void timeInc(){
-        time++;
-    }
-    
-    int getDistance(){
-        if(distance > 100) return 100;
-        return distance;
-    }
-
-    void calcDistance(){
-        distance = time * velocity;
-    }
-
-    void getInfo(){
-        std::cout << "swimmer " << getName() << " " << "distance = " << getDistance() << std::endl;
-    }
-
-    int getResult(){
-        return distance/velocity;
-    }
-};
- 
 void swim(int time, std::string name, int velocity){
     
     Swimmer swimmer;
@@ -72,7 +32,7 @@ void swim(int time, std::string name, int velocity){
     result_accsess.lock();
     results.emplace(swimmer.getResult(), swimmer.getName());
     result_accsess.unlock();
-}
+};
 
 
 int main(int, char**){
@@ -80,10 +40,10 @@ int main(int, char**){
 
     int time = 1;
 
-    std::string name;
-    std::cin >> name;
-    int velocity;
-    std::cin >> velocity;
+    //std::string name;
+    //std::cin >> name;
+    //int velocity;
+    //std::cin >> velocity;
     
     std::thread track1(swim, time, "Swimmer 1", 25);
     std::thread track2(swim, time, "Swimmer 2", 15);
@@ -105,4 +65,4 @@ int main(int, char**){
         std::cout << result.first << " " << result.second << std::endl;
     }
     result_accsess.unlock();
-}
+};
