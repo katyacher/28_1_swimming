@@ -67,7 +67,7 @@ int main(int, char**){
     
     result_accsess.lock();
 
-    std::sort(results.begin(), results.end(), [](const auto& el1, const auto& el2) { return el1.first < el2.first;});
+    std::sort(results.begin(), results.end());
     
     std::cout << "\n*****Results***** \n";
     for (const auto& result: results){
