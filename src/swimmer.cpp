@@ -8,8 +8,8 @@ std::string Swimmer::getName(){
     return name;
 };
 
-void Swimmer::setVelocity(int inVelocity){
-    velocity = inVelocity;
+void Swimmer::setSpeed(int inSpeed){
+    speed = inSpeed;
 };
 
 void Swimmer::timeInc(){
@@ -22,13 +22,13 @@ int Swimmer::getDistance(){
 };
 
 void Swimmer::calcDistance(){
-    distance = time * velocity;
+    distance = time * speed;
 };
 
-void Swimmer::getInfo(){
+void Swimmer::printInfo(){
     std::cout << "swimmer " << getName() << " " << "distance = " << getDistance() << std::endl;
 };
 
 int Swimmer::getResult(){
-    return distance/velocity;
+    return distance/speed;
 };

@@ -3,17 +3,17 @@
 
 class Swimmer{
     std::string name;
-    int velocity;
+    int speed;
     int distance;
     int time{0};
     int result;
 public:
     void setName(const std::string inName);
     std::string getName();
-    void setVelocity(int inVelocity);
+    void setSpeed(int inSpeed);
     void timeInc();
     int getDistance();
     void calcDistance();
-    void getInfo();
+    void printInfo();
     int getResult();
 };
