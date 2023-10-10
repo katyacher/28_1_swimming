@@ -25,10 +25,6 @@ void swim(int time, std::string name, int speed){
         stdout_accsess.unlock();
     }
 
-    stdout_accsess.lock();
-    std::cout << swimmer.getName() << " finished the track" << std::endl;
-    stdout_accsess.unlock();
-
     result_accsess.lock();
     results.push_back({swimmer.getResult(), swimmer.getName()});
     result_accsess.unlock();
@@ -51,15 +47,13 @@ int main(int, char**){
         std::cin >> names[i];
         std::cout << names[i] << "'s speed: ";
         std::cin >> speeds[i];
-        while(true){
-            if(std::cin.fail()){
-                std::cin.clear();
-                std::cin.ignore();
-                std::cout << "Not a number. Try again: " << std::endl;
-                std::cin >> speeds[i];
-            } else {
-                break;
-            }
+        while(std::cin.fail()){
+            std::cin.clear();
+            std::cin.ignore();
+            std::cout << "Not a number. Try again: " << std::endl;
+            std::cin.clear();
+            std::cin.ignore();
+            std::cin >> speeds[i];
         }
     }
 
@@ -73,7 +67,7 @@ int main(int, char**){
     
     result_accsess.lock();
 
-    std::sort(results.begin(), results.end(), [](const auto& el1, const auto& el2) { return el1.first > el2.first;});
+    std::sort(results.begin(), results.end(), [](const auto& el1, const auto& el2) { return el1.first < el2.first;});
     
     std::cout << "\n*****Results***** \n";
     for (const auto& result: results){
