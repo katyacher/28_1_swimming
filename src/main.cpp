@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <atomic>  
 #include <vector>
 #include <algorithm>
 #include <mutex>
@@ -9,8 +10,13 @@
 std::vector<std::pair<int, std::string>> results;
 std::mutex result_accsess;
 std::mutex stdout_accsess;
+std::atomic<bool> ready (false);
 
 void swim(int time, std::string name, int speed){
+    while(!ready){                  // wait until main() sets ready...
+        std::this_thread::yield();
+    }
+
     Swimmer swimmer;
     swimmer.setName(name);
     swimmer.setSpeed(speed);
@@ -36,42 +42,39 @@ int main(int, char**){
 
     int time = 1;
 
-    std::vector <std::thread> tracks;
-    
-    std::vector<std::string> names(6);
-    std::vector<int> speeds(6);
+    std::thread tracks[6];
+    std::string name;
+    int speed;
 
     for(int i = 0; i < 6; i++){
         std::cout << "Swimmer № " << i + 1 << std::endl;
         std::cout << "Type a name: ";
-        std::cin >> names[i];
-        std::cout << names[i] << "'s speed: ";
-        std::cin >> speeds[i];
+        std::cin >> name;
+        std::cout << name << "'s speed: ";
+        std::cin >> speed;
         while(std::cin.fail()){
             std::cin.clear();
             std::cin.ignore();
             std::cout << "Not a number. Try again: " << std::endl;
             std::cin.clear();
             std::cin.ignore();
-            std::cin >> speeds[i];
+            std::cin >> speed;
         }
-    }
-
-    for(int i = 0; i < 6; i++){
-        tracks.push_back (std::thread(swim, time, names[i], speeds[i]));
+    
+        tracks[i] = std::thread(swim, time, name, speed);
     }
     
-    for(int i = 0; i < tracks.size(); i++){
-        tracks.at(i).join();
-    }
+    ready = true;
+
+    for(auto& track : tracks) track.join();
     
     result_accsess.lock();
 
     std::sort(results.begin(), results.end());
     
-    std::cout << "\n*****Results***** \n";
+    std::cout << "\nResults: \n";
     for (const auto& result: results){
-        std::cout << result.first << " : " << result.second << std::endl;
+        std::cout <<  result.first << " : " << result.second << std::endl;
     }
     result_accsess.unlock();
 
